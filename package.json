@@ -1,0 +1,58 @@
+{
+  "name": "ultra-realistic-3d-button",
+  "version": "1.0.0",
+  "description": "An interactive, ultra-realistic 3D button with photorealistic rendering, realistic physics simulation, and advanced material properties",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "dev": "python3 -m http.server 8000",
+    "serve": "python3 -m http.server 8000",
+    "build": "echo 'No build step required - pure HTML/CSS/JS'",
+    "test": "echo 'Open index.html in a modern browser to test'"
+  },
+  "keywords": [
+    "3d",
+    "button",
+    "interactive",
+    "physics",
+    "webgl",
+    "canvas",
+    "realistic",
+    "glass",
+    "jelly",
+    "refraction",
+    "transparency",
+    "elasticity",
+    "particle-system",
+    "web-animation",
+    "responsive-design"
+  ],
+  "author": "AI Assistant",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/ultra-realistic-3d-button.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/ultra-realistic-3d-button/issues"
+  },
+  "homepage": "https://github.com/yourusername/ultra-realistic-3d-button#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "devDependencies": {},
+  "dependencies": {},
+  "files": [
+    "index.html",
+    "demo.html",
+    "styles.css",
+    "button3D.js",
+    "README.md",
+    "package.json"
+  ]
+}

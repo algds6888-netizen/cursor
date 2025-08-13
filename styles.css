@@ -44,30 +44,33 @@ body {
 }
 
 .button-3d-container {
-    perspective: 1000px;
+    perspective: 2000px;
     perspective-origin: center;
+    transform-style: preserve-3d;
 }
 
 .button-3d {
     position: relative;
-    width: 280px;
-    height: 80px;
+    width: 320px;
+    height: 100px;
     border: none;
     background: none;
     cursor: pointer;
     transform-style: preserve-3d;
-    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
     outline: none;
+    transform: translateZ(0px);
 }
 
 .button-3d:hover {
-    transform: translateY(-5px) rotateX(10deg) rotateY(5deg);
+    transform: translateY(-15px) translateZ(50px) rotateX(15deg) rotateY(8deg) scale(1.05);
 }
 
 .button-3d:active {
-    transform: translateY(2px) rotateX(-5deg) rotateY(-2deg) scale(0.98);
+    transform: translateY(5px) translateZ(-20px) rotateX(-10deg) rotateY(-5deg) scale(0.95);
 }
 
+/* Camada de fundo principal com extrusão */
 .button-background {
     position: absolute;
     top: 0;
@@ -75,18 +78,101 @@ body {
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.05) 100%);
+    border-radius: 25px;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transform: translateZ(-80px);
+    box-shadow: 
+        0 40px 80px rgba(0, 0, 0, 0.5),
+        0 0 0 2px rgba(255, 255, 255, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Camada de extrusão lateral esquerda */
+.button-extrusion-left {
+    position: absolute;
+    top: 0;
+    left: -15px;
+    width: 15px;
+    height: 100%;
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0.2) 0%,
         rgba(255, 255, 255, 0.1) 50%,
         rgba(255, 255, 255, 0.05) 100%);
-    border-radius: 20px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transform: translateZ(-10px);
+    border-radius: 15px 0 0 15px;
+    transform: translateZ(-40px) rotateY(90deg);
+    transform-origin: right center;
+}
+
+/* Camada de extrusão lateral direita */
+.button-extrusion-right {
+    position: absolute;
+    top: 0;
+    right: -15px;
+    width: 15px;
+    height: 100%;
+    background: linear-gradient(270deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.05) 100%);
+    border-radius: 0 15px 15px 0;
+    transform: translateZ(-40px) rotateY(-90deg);
+    transform-origin: left center;
+}
+
+/* Camada de extrusão superior */
+.button-extrusion-top {
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(180deg,
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.05) 100%);
+    border-radius: 15px 15px 0 0;
+    transform: translateZ(-40px) rotateX(-90deg);
+    transform-origin: bottom center;
+}
+
+/* Camada de extrusão inferior */
+.button-extrusion-bottom {
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(0deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(0, 0, 0, 0.1) 100%);
+    border-radius: 0 0 15px 15px;
+    transform: translateZ(-40px) rotateX(90deg);
+    transform-origin: top center;
+}
+
+/* Camada de extrusão frontal */
+.button-extrusion-front {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.1) 100%);
+    border-radius: 25px;
+    transform: translateZ(40px);
     box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        0 0 0 1px rgba(255, 255, 255, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .button-content {
@@ -97,17 +183,19 @@ body {
     align-items: center;
     justify-content: center;
     transform-style: preserve-3d;
-    z-index: 2;
+    z-index: 10;
+    transform: translateZ(60px);
 }
 
 .button-text {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     transform: translateZ(20px);
-    transition: all 0.3s ease;
-    letter-spacing: 0.5px;
+    transition: all 0.4s ease;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .liquid-overlay {
@@ -117,13 +205,13 @@ body {
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg,
-        rgba(255, 255, 255, 0.15) 0%,
-        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
         transparent 100%);
-    border-radius: 20px;
-    transform: translateZ(5px);
-    opacity: 0.8;
-    transition: all 0.3s ease;
+    border-radius: 25px;
+    transform: translateZ(30px);
+    opacity: 0.9;
+    transition: all 0.4s ease;
 }
 
 .glass-reflection {
@@ -133,13 +221,13 @@ body {
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg,
-        rgba(255, 255, 255, 0.3) 0%,
-        rgba(255, 255, 255, 0.1) 30%,
+        rgba(255, 255, 255, 0.5) 0%,
+        rgba(255, 255, 255, 0.2) 30%,
         transparent 60%);
-    border-radius: 20px;
-    transform: translateZ(10px);
-    opacity: 0.6;
-    transition: all 0.3s ease;
+    border-radius: 25px;
+    transform: translateZ(50px);
+    opacity: 0.8;
+    transition: all 0.4s ease;
 }
 
 .depth-shadow {
@@ -150,109 +238,133 @@ body {
     height: 100%;
     background: radial-gradient(ellipse at center,
         transparent 0%,
-        rgba(0, 0, 0, 0.1) 70%,
-        rgba(0, 0, 0, 0.3) 100%);
-    border-radius: 20px;
-    transform: translateZ(-5px);
-    opacity: 0.4;
+        rgba(0, 0, 0, 0.2) 70%,
+        rgba(0, 0, 0, 0.5) 100%);
+    border-radius: 25px;
+    transform: translateZ(-20px);
+    opacity: 0.6;
 }
 
 .button-glow {
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
     background: linear-gradient(135deg,
-        rgba(138, 43, 226, 0.3) 0%,
-        rgba(75, 0, 130, 0.2) 50%,
-        rgba(138, 43, 226, 0.1) 100%);
-    border-radius: 22px;
-    filter: blur(15px);
-    transform: translateZ(-20px);
+        rgba(138, 43, 226, 0.4) 0%,
+        rgba(75, 0, 130, 0.3) 50%,
+        rgba(138, 43, 226, 0.2) 100%);
+    border-radius: 35px;
+    filter: blur(25px);
+    transform: translateZ(-100px);
     opacity: 0;
-    transition: all 0.6s ease;
+    transition: all 0.8s ease;
     z-index: -1;
 }
 
-/* Efeitos de hover */
+/* Efeitos de hover com mais profundidade */
 .button-3d:hover .liquid-overlay {
     background: linear-gradient(135deg,
-        rgba(255, 255, 255, 0.25) 0%,
-        rgba(255, 255, 255, 0.1) 50%,
-        rgba(255, 255, 255, 0.05) 100%);
-    transform: translateZ(8px) scale(1.02);
+        rgba(255, 255, 255, 0.35) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.1) 100%);
+    transform: translateZ(40px) scale(1.05);
 }
 
 .button-3d:hover .glass-reflection {
     background: linear-gradient(135deg,
-        rgba(255, 255, 255, 0.4) 0%,
-        rgba(255, 255, 255, 0.15) 30%,
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(255, 255, 255, 0.3) 30%,
         transparent 60%);
-    transform: translateZ(15px) scale(1.02);
+    transform: translateZ(65px) scale(1.05);
 }
 
 .button-3d:hover .button-glow {
-    opacity: 0.8;
-    filter: blur(20px);
+    opacity: 1;
+    filter: blur(35px);
+    transform: translateZ(-120px) scale(1.2);
 }
 
-/* Efeito de gelatina ao pressionar */
+.button-3d:hover .button-extrusion-front {
+    transform: translateZ(60px);
+    box-shadow: 
+        0 0 0 2px rgba(255, 255, 255, 0.4),
+        inset 0 2px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Efeito de gelatina ao pressionar com mais profundidade */
 .button-3d:active .button-content {
-    animation: jellyEffect 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    animation: jellyEffect3D 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .button-3d:active .liquid-overlay {
-    animation: liquidSplash 0.6s ease;
+    animation: liquidSplash3D 0.8s ease;
 }
 
 .button-3d:active .glass-reflection {
-    animation: glassShake 0.6s ease;
+    animation: glassShake3D 0.8s ease;
 }
 
-/* Animações */
-@keyframes jellyEffect {
+.button-3d:active .button-extrusion-front {
+    animation: extrusionPress 0.8s ease;
+}
+
+/* Animações 3D aprimoradas */
+@keyframes jellyEffect3D {
     0%, 100% {
-        transform: scale(1, 1);
+        transform: translateZ(60px) scale(1, 1);
     }
     25% {
-        transform: scale(1.1, 0.9);
+        transform: translateZ(60px) scale(1.15, 0.9);
     }
     50% {
-        transform: scale(0.9, 1.1);
+        transform: translateZ(60px) scale(0.9, 1.15);
     }
     75% {
-        transform: scale(1.05, 0.95);
+        transform: translateZ(60px) scale(1.08, 0.95);
     }
 }
 
-@keyframes liquidSplash {
+@keyframes liquidSplash3D {
     0% {
-        transform: translateZ(5px) scale(1);
-        opacity: 0.8;
+        transform: translateZ(30px) scale(1);
+        opacity: 0.9;
     }
     50% {
-        transform: translateZ(15px) scale(1.1);
+        transform: translateZ(50px) scale(1.15);
         opacity: 1;
     }
     100% {
-        transform: translateZ(5px) scale(1);
-        opacity: 0.8;
+        transform: translateZ(30px) scale(1);
+        opacity: 0.9;
     }
 }
 
-@keyframes glassShake {
+@keyframes glassShake3D {
     0%, 100% {
-        transform: translateZ(10px) rotate(0deg);
+        transform: translateZ(50px) rotate(0deg);
     }
     25% {
-        transform: translateZ(12px) rotate(1deg);
+        transform: translateZ(55px) rotate(2deg);
     }
     50% {
-        transform: translateZ(10px) rotate(-1deg);
+        transform: translateZ(50px) rotate(-2deg);
     }
     75% {
-        transform: translateZ(12px) rotate(0.5deg);
+        transform: translateZ(55px) rotate(1deg);
+    }
+}
+
+@keyframes extrusionPress {
+    0% {
+        transform: translateZ(40px);
+    }
+    50% {
+        transform: translateZ(20px);
+    }
+    100% {
+        transform: translateZ(40px);
     }
 }
 
@@ -265,10 +377,10 @@ body::before {
     width: 100%;
     height: 100%;
     background-image: 
-        radial-gradient(circle at 20% 80%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(75, 0, 130, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(138, 43, 226, 0.05) 0%, transparent 50%);
-    animation: backgroundFloat 20s ease-in-out infinite;
+        radial-gradient(circle at 20% 80%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(75, 0, 130, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(138, 43, 226, 0.1) 0%, transparent 50%);
+    animation: backgroundFloat 25s ease-in-out infinite;
     z-index: -1;
 }
 
@@ -277,19 +389,19 @@ body::before {
         transform: translateY(0px) rotate(0deg);
     }
     50% {
-        transform: translateY(-20px) rotate(180deg);
+        transform: translateY(-30px) rotate(180deg);
     }
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
     .button-3d {
-        width: 240px;
-        height: 70px;
+        width: 280px;
+        height: 90px;
     }
     
     .button-text {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
     
     .info h1 {
@@ -303,11 +415,29 @@ body::before {
 
 /* Efeito de foco para acessibilidade */
 .button-3d:focus {
-    outline: 2px solid rgba(138, 43, 226, 0.5);
-    outline-offset: 4px;
+    outline: 3px solid rgba(138, 43, 226, 0.6);
+    outline-offset: 8px;
 }
 
 .button-3d:focus .button-glow {
     opacity: 1;
-    filter: blur(25px);
+    filter: blur(40px);
+    transform: translateZ(-130px) scale(1.3);
+}
+
+/* Efeito de profundidade adicional no hover */
+.button-3d:hover .button-extrusion-left {
+    transform: translateZ(-60px) rotateY(90deg) translateX(-5px);
+}
+
+.button-3d:hover .button-extrusion-right {
+    transform: translateZ(-60px) rotateY(-90deg) translateX(5px);
+}
+
+.button-3d:hover .button-extrusion-top {
+    transform: translateZ(-60px) rotateX(-90deg) translateY(-5px);
+}
+
+.button-3d:hover .button-extrusion-bottom {
+    transform: translateZ(-60px) rotateX(90deg) translateY(5px);
 }

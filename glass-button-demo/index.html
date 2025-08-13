@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Botão 3D Liquid Glass</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        overflow: hidden;
+        background: #0f0f10;
+        font-family: system-ui, sans-serif;
+      }
+      #scene {
+        display: block; /* remove inline-block gap */
+        width: 100%;
+        height: 100%;
+      }
+      /* Hint text (optional) */
+      #hint {
+        position: absolute;
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff6;
+        font-size: 0.9rem;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="scene"></canvas>
+    <div id="hint">Arraste com o mouse e clique no botão :)</div>
+    <script type="module">
+      // ----- Dependências externas (via CDN) -----
+      import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js';
+      import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/controls/OrbitControls.js';
+      import { RGBELoader } from 'https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/loaders/RGBELoader.js';
+      import { gsap } from 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/index.js';
+
+      // ----- Configuração básica -----
+      const canvas = document.getElementById('scene');
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      const scene = new THREE.Scene();
+
+      // Câmera
+      const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 50);
+      camera.position.set(0, 2, 7);
+      scene.add(camera);
+
+      // Controles de órbita (para explorar o botão)
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.enablePan = false;
+      controls.minDistance = 5;
+      controls.maxDistance = 10;
+
+      // Iluminação
+      const hemi = new THREE.HemisphereLight(0xffffff, 0x222233, 0.6);
+      scene.add(hemi);
+
+      const dir = new THREE.DirectionalLight(0xffffff, 1.2);
+      dir.position.set(5, 10, 7);
+      scene.add(dir);
+
+      // HDRI para reflexões (dá o look "liquid glass")
+      const rgbeLoader = new RGBELoader();
+      rgbeLoader.setPath('https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/hdri/');
+      rgbeLoader.load('dikhololo_night_1k.hdr', (hdrEMap) => {
+        hdrEMap.mapping = THREE.EquirectangularReflectionMapping;
+        scene.environment = hdrEMap;
+        scene.background = null; // Fundo continua preto
+      });
+
+      // ----- Geometria e material do botão -----
+      const radius = 2.5;
+      const height = 0.8;
+      const radialSegments = 128;
+      const geometry = new THREE.CylinderGeometry(radius, radius, height, radialSegments, 1, false);
+      // arredondar bordas manualmente (leve bevel)
+      const pos = geometry.attributes.position;
+      const v = new THREE.Vector3();
+      for (let i = 0; i < pos.count; i++) {
+        v.fromBufferAttribute(pos, i);
+        const y = v.y;
+        const edge = radius * 0.04; // 4% do raio
+        // Topo arredondado
+        if (y > height * 0.4) {
+          const factor = (y - height * 0.4) / (height * 0.6);
+          const shrink = 1 - factor * 0.12;
+          v.x *= shrink;
+          v.z *= shrink;
+        }
+        // Base arredondada (opcional)
+        if (y < -height * 0.4) {
+          const factor = (Math.abs(y) - height * 0.4) / (height * 0.6);
+          const shrink = 1 - factor * 0.12;
+          v.x *= shrink;
+          v.z *= shrink;
+        }
+        pos.setXYZ(i, v.x, v.y, v.z);
+      }
+      geometry.computeVertexNormals();
+
+      const material = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        metalness: 0.0,
+        roughness: 0.05,
+        transmission: 0.95, // transparência física (>= 0.9 parece vidro)
+        thickness: 1.5,
+        ior: 1.5,
+        envMapIntensity: 1.1,
+        clearcoat: 1,
+        clearcoatRoughness: 0.03,
+      });
+
+      const buttonMesh = new THREE.Mesh(geometry, material);
+      buttonMesh.castShadow = false;
+      buttonMesh.receiveShadow = false;
+      scene.add(buttonMesh);
+
+      // Sombras suaves
+      renderer.shadowMap.enabled = false; // não precisamos de sombras projetadas, reflexões já dão profundidade
+
+      // Plano ground invisível para ver reflexo sutil (se quiser)
+      // ... opcional ...
+
+      // ----- Efeito gelatina -----
+      let isPressing = false;
+      const press = () => {
+        if (isPressing) return;
+        isPressing = true;
+        gsap.to(buttonMesh.scale, {
+          y: 0.7,
+          duration: 0.15,
+          ease: 'power3.in',
+          onComplete: () => {
+            gsap.to(buttonMesh.scale, {
+              y: 1,
+              duration: 0.8,
+              ease: 'elastic.out(1.2, 0.3)',
+              onComplete: () => (isPressing = false),
+            });
+          },
+        });
+      };
+
+      // Raycaster para detectar clique no botão
+      const raycaster = new THREE.Raycaster();
+      const pointer = new THREE.Vector2();
+      function onPointerDown(event) {
+        pointer.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
+        pointer.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1;
+        raycaster.setFromCamera(pointer, camera);
+        const intersects = raycaster.intersectObject(buttonMesh, false);
+        if (intersects.length) {
+          press();
+        }
+      }
+      window.addEventListener('pointerdown', onPointerDown);
+
+      // Responsividade
+      window.addEventListener('resize', () => {
+        const { innerWidth: w, innerHeight: h } = window;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      });
+
+      // Loop de renderização
+      const clock = new THREE.Clock();
+      function animate() {
+        const t = clock.getElapsedTime();
+        // movimento sutil para dar vida
+        buttonMesh.rotation.y = t * 0.15;
+        controls.update();
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+      animate();
+    </script>
+  </body>
+</html>

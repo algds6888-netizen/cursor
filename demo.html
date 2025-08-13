@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Button Demo - Interactive Examples</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .demo-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .demo-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #a8e6cf;
+        }
+        
+        .demo-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .demo-button {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .demo-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .demo-button canvas {
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .demo-button h3 {
+            margin-bottom: 10px;
+            color: #4facfe;
+        }
+        
+        .demo-button p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .feature-list li:before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>3D Button Interactive Demo</h1>
+            <p>Explore different configurations and see the ultra-realistic 3D button in action</p>
+        </div>
+        
+        <div class="demo-section">
+            <h2 class="demo-title">Main Interactive Button</h2>
+            <p class="demo-description">
+                This is the primary demonstration of the ultra-realistic 3D button. Click and drag to interact with it, 
+                and use the controls below to adjust material properties in real-time.
+            </p>
+            
+            <div class="canvas-container">
+                <canvas id="mainButtonCanvas" width="800" height="600"></canvas>
+                <div class="instructions">
+                    <p>Click and drag to interact • Adjust parameters with sliders below</p>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label for="mainRefractionSlider">Refraction Index:</label>
+                    <input type="range" id="mainRefractionSlider" min="1.0" max="2.0" step="0.01" value="1.33">
+                    <span id="mainRefractionValue">1.33</span>
+                </div>
+                <div class="control-group">
+                    <label for="mainTransparencySlider">Transparency:</label>
+                    <input type="range" id="mainTransparencySlider" min="0.1" max="1.0" step="0.01" value="0.8">
+                    <span id="mainTransparencyValue">0.8</span>
+                </div>
+                <div class="control-group">
+                    <label for="mainElasticitySlider">Elasticity:</label>
+                    <input type="range" id="mainElasticitySlider" min="0.1" max="2.0" step="0.01" value="1.0">
+                    <span id="mainElasticityValue">1.0</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2 class="demo-title">Button Variations</h2>
+            <p class="demo-description">
+                Explore different button configurations to see how material properties affect the visual appearance and behavior.
+            </p>
+            
+            <div class="button-grid">
+                <div class="demo-button">
+                    <canvas id="glassButton" width="250" height="200"></canvas>
+                    <h3>Pure Glass</h3>
+                    <p>High refraction, low transparency for maximum glass-like appearance</p>
+                </div>
+                
+                <div class="demo-button">
+                    <canvas id="jellyButton" width="250" height="200"></canvas>
+                    <h3>Jelly Mode</h3>
+                    <p>High elasticity with medium transparency for realistic jelly behavior</p>
+                </div>
+                
+                <div class="demo-button">
+                    <canvas id="crystalButton" width="250" height="200"></canvas>
+                    <h3>Crystal Clear</h3>
+                    <p>Maximum transparency with subtle refraction for crystal-like clarity</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2 class="demo-title">Key Features</h2>
+            <ul class="feature-list">
+                <li><strong>Ultra-Realistic 3D Appearance:</strong> The button appears to protrude from the screen with a massive convex shape</li>
+                <li><strong>Translucent Glass Material:</strong> Realistic index of refraction creates optical distortion and background blurring</li>
+                <li><strong>Jelly-Like Physics:</strong> Realistic deformation with elastic spring forces and wave-like ripple effects</li>
+                <li><strong>Advanced Lighting:</strong> PBR materials with highlights, shadows, and depth of field for photorealistic rendering</li>
+                <li><strong>Interactive Controls:</strong> Real-time adjustment of material properties through intuitive sliders</li>
+                <li><strong>Responsive Design:</strong> Optimized for all screen sizes with touch support for mobile devices</li>
+                <li><strong>60 FPS Performance:</strong> Smooth animation with optimized particle system and rendering</li>
+                <li><strong>No Dependencies:</strong> Pure vanilla JavaScript and HTML5 Canvas - no external libraries required</li>
+            </ul>
+        </div>
+        
+        <div class="demo-section">
+            <h2 class="demo-title">How to Use</h2>
+            <div class="demo-description">
+                <h4>Basic Interaction:</h4>
+                <ol style="margin-left: 20px; line-height: 1.8;">
+                    <li><strong>Click and hold</strong> on the button to activate deformation</li>
+                    <li><strong>Drag while holding</strong> to increase deformation force</li>
+                    <li><strong>Release</strong> to see the button spring back naturally</li>
+                    <li><strong>Adjust sliders</strong> to change material properties in real-time</li>
+                </ol>
+                
+                <h4 style="margin-top: 20px;">Parameter Effects:</h4>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><strong>Refraction Index:</strong> Higher values create more dramatic background distortion</li>
+                    <li><strong>Transparency:</strong> Controls overall opacity and glass-like appearance</li>
+                    <li><strong>Elasticity:</strong> Affects how quickly the button deforms and recovers</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script src="button3D.js"></script>
+    <script>
+        // Initialize main button
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainCanvas = document.getElementById('mainButtonCanvas');
+            if (mainCanvas) {
+                const mainButton = new UltraRealistic3DButton(mainCanvas);
+                
+                // Setup main controls
+                const refractionSlider = document.getElementById('mainRefractionSlider');
+                const transparencySlider = document.getElementById('mainTransparencySlider');
+                const elasticitySlider = document.getElementById('mainElasticitySlider');
+                
+                const refractionValue = document.getElementById('mainRefractionValue');
+                const transparencyValue = document.getElementById('mainTransparencyValue');
+                const elasticityValue = document.getElementById('mainElasticityValue');
+                
+                refractionSlider.addEventListener('input', (e) => {
+                    mainButton.refractionIndex = parseFloat(e.target.value);
+                    refractionValue.textContent = mainButton.refractionIndex.toFixed(2);
+                });
+                
+                transparencySlider.addEventListener('input', (e) => {
+                    mainButton.transparency = parseFloat(e.target.value);
+                    transparencyValue.textContent = mainButton.transparency.toFixed(2);
+                });
+                
+                elasticitySlider.addEventListener('input', (e) => {
+                    mainButton.elasticity = parseFloat(e.target.value);
+                    elasticityValue.textContent = mainButton.elasticity.toFixed(2);
+                });
+            }
+            
+            // Initialize demo buttons with different configurations
+            this.initializeDemoButtons();
+        });
+        
+        function initializeDemoButtons() {
+            // Glass Button (High refraction, low transparency)
+            const glassCanvas = document.getElementById('glassButton');
+            if (glassCanvas) {
+                const glassButton = new UltraRealistic3DButton(glassCanvas);
+                glassButton.refractionIndex = 1.8;
+                glassButton.transparency = 0.3;
+                glassButton.elasticity = 0.8;
+            }
+            
+            // Jelly Button (High elasticity, medium transparency)
+            const jellyCanvas = document.getElementById('jellyButton');
+            if (jellyCanvas) {
+                const jellyButton = new UltraRealistic3DButton(jellyCanvas);
+                jellyButton.refractionIndex = 1.4;
+                jellyButton.transparency = 0.6;
+                jellyButton.elasticity = 1.8;
+            }
+            
+            // Crystal Button (Maximum transparency, subtle refraction)
+            const crystalCanvas = document.getElementById('crystalButton');
+            if (crystalCanvas) {
+                const crystalButton = new UltraRealistic3DButton(crystalCanvas);
+                crystalButton.refractionIndex = 1.1;
+                crystalButton.transparency = 0.95;
+                crystalButton.elasticity = 1.2;
+            }
+        }
+    </script>
+</body>
+</html>

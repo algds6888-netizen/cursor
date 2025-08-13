@@ -1,45 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultra-Realistic 3D Button</title>
+    <title>Botão 3D Ultra-Realista - Nova Geração</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Ultra-Realistic 3D Button</h1>
-            <p>Interactive translucent glass button with realistic physics</p>
-        </div>
-        
-        <div class="canvas-container">
-            <canvas id="buttonCanvas" width="1200" height="800"></canvas>
-            <div class="instructions">
-                <p>Click and drag to interact with the button</p>
-                <p>Press harder for more dramatic deformation</p>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="main-title">
+                    <span class="title-gradient">Botão 3D</span>
+                    <span class="title-subtitle">Ultra-Realista</span>
+                </h1>
+                <p class="header-description">Nova geração de interação com física avançada e materiais PBR</p>
             </div>
-        </div>
-        
-        <div class="controls">
-            <div class="control-group">
-                <label for="refractionSlider">Refraction Index:</label>
-                <input type="range" id="refractionSlider" min="1.0" max="2.0" step="0.01" value="1.33">
-                <span id="refractionValue">1.33</span>
+        </header>
+
+        <!-- Main Canvas Section -->
+        <main class="main-content">
+            <div class="canvas-wrapper">
+                <canvas id="mainCanvas" width="1200" height="800"></canvas>
+                <div class="canvas-overlay">
+                    <div class="interaction-hint">
+                        <div class="hint-icon">👆</div>
+                        <p>Clique e arraste para interagir</p>
+                    </div>
+                </div>
             </div>
-            <div class="control-group">
-                <label for="transparencySlider">Transparency:</label>
-                <input type="range" id="transparencySlider" min="0.1" max="1.0" step="0.01" value="0.8">
-                <span id="transparencyValue">0.8</span>
+        </main>
+
+        <!-- Advanced Controls Panel -->
+        <section class="controls-panel">
+            <div class="panel-header">
+                <h2>Controles Avançados</h2>
+                <p>Ajuste as propriedades do material em tempo real</p>
             </div>
-            <div class="control-group">
-                <label for="elasticitySlider">Elasticity:</label>
-                <input type="range" id="elasticitySlider" min="0.1" max="2.0" step="0.01" value="1.0">
-                <span id="elasticityValue">1.0</span>
+            
+            <div class="controls-grid">
+                <!-- Material Properties -->
+                <div class="control-group">
+                    <h3>Propriedades do Material</h3>
+                    <div class="control-item">
+                        <label for="refractionSlider">
+                            <span class="control-icon">🔍</span>
+                            Índice de Refração
+                        </label>
+                        <input type="range" id="refractionSlider" min="1.0" max="2.5" step="0.01" value="1.33">
+                        <span class="control-value" id="refractionValue">1.33</span>
+                    </div>
+                    
+                    <div class="control-item">
+                        <label for="transparencySlider">
+                            <span class="control-icon">💎</span>
+                            Transparência
+                        </label>
+                        <input type="range" id="transparencySlider" min="0.1" max="1.0" step="0.01" value="0.8">
+                        <span class="control-value" id="transparencyValue">0.8</span>
+                    </div>
+                    
+                    <div class="control-item">
+                        <label for="roughnessSlider">
+                            <span class="control-icon">✨</span>
+                            Rugosidade
+                        </label>
+                        <input type="range" id="roughnessSlider" min="0.0" max="1.0" step="0.01" value="0.1">
+                        <span class="control-value" id="roughnessValue">0.1</span>
+                    </div>
+                </div>
+
+                <!-- Physics Properties -->
+                <div class="control-group">
+                    <h3>Propriedades Físicas</h3>
+                    <div class="control-item">
+                        <label for="elasticitySlider">
+                            <span class="control-icon">🎯</span>
+                            Elasticidade
+                        </label>
+                        <input type="range" id="elasticitySlider" min="0.1" max="3.0" step="0.01" value="1.0">
+                        <span class="control-value" id="elasticityValue">1.0</span>
+                    </div>
+                    
+                    <div class="control-item">
+                        <label for="dampingSlider">
+                            <span class="control-icon">🌊</span>
+                            Amortecimento
+                        </label>
+                        <input type="range" id="dampingSlider" min="0.8" max="0.99" step="0.001" value="0.95">
+                        <span class="control-value" id="dampingValue">0.95</span>
+                    </div>
+                    
+                    <div class="control-item">
+                        <label for="tensionSlider">
+                            <span class="control-icon">🔄</span>
+                            Tensão da Superfície
+                        </label>
+                        <input type="range" id="tensionSlider" min="0.1" max="2.0" step="0.01" value="1.0">
+                        <span class="control-value" id="tensionValue">1.0</span>
+                    </div>
+                </div>
+
+                <!-- Visual Effects -->
+                <div class="control-group">
+                    <h3>Efeitos Visuais</h3>
+                    <div class="control-item">
+                        <label for="causticsSlider">
+                            <span class="control-icon">💫</span>
+                            Intensidade das Caustics
+                        </label>
+                        <input type="range" id="causticsSlider" min="0.0" max="2.0" step="0.01" value="1.0">
+                        <span class="control-value" id="causticsValue">1.0</span>
+                    </div>
+                    
+                    <div class="control-item">
+                        <label for="fresnelSlider">
+                            <span class="control-icon">🌈</span>
+                            Efeito Fresnel
+                        </label>
+                        <input type="range" id="fresnelSlider" min="0.0" max="1.0" step="0.01" value="0.8">
+                        <span class="control-value" id="fresnelValue">0.8</span>
+                    </div>
+                    
+                    <div class="control-item">
+                        <label for="subsurfaceSlider">
+                            <span class="control-icon">💡</span>
+                            Dispersão Subsuperfície
+                        </label>
+                        <input type="range" id="subsurfaceSlider" min="0.0" max="1.0" step="0.01" value="0.3">
+                        <span class="control-value" id="subsurfaceValue">0.3</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preset Buttons -->
+            <div class="preset-section">
+                <h3>Configurações Pré-definidas</h3>
+                <div class="preset-buttons">
+                    <button class="preset-btn" data-preset="crystal">💎 Cristal</button>
+                    <button class="preset-btn" data-preset="jelly">🍮 Gelatina</button>
+                    <button class="preset-btn" data-preset="glass">🥃 Vidro</button>
+                    <button class="preset-btn" data-preset="water">💧 Água</button>
+                    <button class="preset-btn" data-preset="diamond">💠 Diamante</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Monitor -->
+        <div class="performance-monitor">
+            <div class="monitor-item">
+                <span class="monitor-label">FPS:</span>
+                <span class="monitor-value" id="fpsValue">60</span>
+            </div>
+            <div class="monitor-item">
+                <span class="monitor-label">Partículas:</span>
+                <span class="monitor-value" id="particleCount">0</span>
+            </div>
+            <div class="monitor-item">
+                <span class="monitor-label">Render Time:</span>
+                <span class="monitor-value" id="renderTime">0ms</span>
             </div>
         </div>
     </div>
-    
-    <script src="button3D.js"></script>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>Carregando Botão 3D...</h2>
+            <p>Inicializando sistema de física e renderização</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="shaders.js"></script>
+    <script src="physics.js"></script>
+    <script src="materials.js"></script>
+    <script src="renderer.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
